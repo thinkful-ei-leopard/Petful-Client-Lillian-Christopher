@@ -4,7 +4,7 @@ const PetfulApiService = {
 
   //gets only rn
   getPeople(){
-    return fetch(`${config.API_ENDPOINT}/people`)
+    return fetch(`${config.API_ENDPOINT}people`)
       .then(res => 
         (!res.ok)
         ? res.json().then(e => Promise.reject(e))
@@ -13,7 +13,7 @@ const PetfulApiService = {
   },
 
   getPets(){
-    return fetch(`${config.API_ENDPOINT}/pets`)
+    return fetch(`${config.API_ENDPOINT}pets`)
       .then(res => 
         (!res.ok)
         ? res.json().then(e => Promise.reject(e))
@@ -21,3 +21,5 @@ const PetfulApiService = {
       )
   }
 }
+
+export default PetfulApiService
