@@ -2,7 +2,6 @@ import config from '../config'
 
 const PetfulApiService = {
 
-  //gets only rn
   getPeople(){
     return fetch(`${config.API_ENDPOINT}people`)
       .then(res => 

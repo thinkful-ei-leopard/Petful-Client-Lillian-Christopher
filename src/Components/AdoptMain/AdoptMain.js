@@ -13,7 +13,7 @@ export default class AdoptMain extends React.Component {
 
   componentDidMount(){
     this.setState({ error: null })
-    //set dogs, cats, people
+    
     PetfulApiService.getPets()
       .then(res => {
         this.setState({
@@ -24,45 +24,100 @@ export default class AdoptMain extends React.Component {
       .catch(res => this.setState({ error: res.error }))
   
     PetfulApiService.getPeople()
-      .then(res => this.setState({ people: res.people }))
+      .then(res => this.setState({ people: res }))
       .catch(res => this.setState({ error: res.error }))
+
+    
+  }
+
+  incrementPerson() {
+    console.log('increment');
+    let randomNumber = Math.floor(Math.random() * 2) + 1
+    console.log(randomNumber);
+    let petType = ''
+    
+    if(randomNumber === 1) {
+      petType = 'dog'
+    } else {
+      petType = 'cat'
+    }
+
+    setInterval(() => {
+      PetfulApiService.deletePetAndPerson(petType)
+    }, 5000);
   }
 
   handleAddName(e) {
-    //add name to q 
+    e.preventDefault()
+    const name = e.target.line.value
+    PetfulApiService.postPerson(name)
+      .then(
+        PetfulApiService.getPeople()
+          .then(res => this.setState({ people: res }))
+          .catch(res => this.setState({ error: res.error }))
+      )
+      .catch(res => this.setState({ error: res.error }))
+
+    this.renderAdoptDogButton(name)
+    this.renderAdoptCatButton(name)
   }
 
-  handleAdoptDog() {
-    //dequeue person and dog
+  handleAdoptDog(e) {
+    e.preventDefault()
+    PetfulApiService.deletePetAndPerson('dog')
+    alert('Adopted a dog! Congrats!')
   }
 
-  handleAdoptCat() {
-    //dequeue person and cat
+  handleAdoptCat(e) {
+    e.preventDefault()
+    PetfulApiService.deletePetAndPerson('cat')
+    alert('Adopted a cat! Congrats!')
   }
 
-  renderAdoptDogButton() {
-    //shows the adopt button based on if the 'active person' === submitted name
+  renderAdoptDogButton(name) {
+    let button
+    if(name === this.state.people[0]){
+      button = <button onClick={e => this.handleAdoptDog(e)}>
+        Adopt Me!
+      </button>
+    }
+    return button
   }
 
-  renderAdoptCatButton() {
-
+  renderAdoptCatButton(name) {
+    let button
+    if(name === this.state.people[0]){
+      button = <button onClick={e => this.handleAdoptCat(e)}>
+        Adopt Me!
+      </button>
+    }
+    return button
   }
 
   renderPeople() {
-    //loops through people q and displays them with a <p> 
-    //people.first needs to be larger (<h3>?)
+    let line = []
+    for(let i = 0; i < this.state.people.length; i++) {
+      if(i === 0) {
+        line.push(<h3 id={i}>{this.state.people[0]}</h3>)
+      } else {
+        line.push(<p id={i}>{this.state.people[i]}</p>)
+      }
+    }
+    return line
   }
 
 
   render() {
-    const {dogs, cats, error} = this.state
+    const {dogs, cats, people, error} = this.state
     console.log(this.state)
     let content
     if (error) {
       content = <p className='red'>There was an error</p>
     } else if (dogs.length === 0 || cats.length === 0) {
       return <div className='loading'>loading...</div>
-    } 
+    } else if (people.length !== 0) {
+      this.incrementPerson()
+    }
     return(
       <div className='adopt-main'>
         <h1>Adopt!</h1>
@@ -90,10 +145,10 @@ export default class AdoptMain extends React.Component {
         </div>
 
         <div className='queue-container'>
-          {/* {this.renderPeople()} */}
+          {this.renderPeople()}
         </div>
 
-        <form className='add-name'>
+        <form className='add-name' onSubmit={e => this.handleAddName(e)}>
           <label htmlFor='line'>Enter your name to get in line!</label>
           <input type='text' name='line' minLength='1' id='name-input'></input>
           <button type='submit'>Get in line to adopt!</button>
