@@ -1,0 +1,54 @@
+* {
+  font-family: 'Baloo Paaji 2', cursive;
+}
+
+.about {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.about > h1 {
+  color: #FD607C;
+  font-weight: 900;
+}
+
+.about > p {
+  text-align: center;
+}
+
+.question {
+  color: #FD607C;
+  font-weight: bold;
+}
+
+.buttons {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 50px;
+}
+
+button {
+  background-color: #5945BC;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  font-size: 15px;
+  font-weight: bold;
+  padding: 10px;
+}
+
+/*
+#5945BC 
+#FD607C
+#A2C1ED
+*/
+
+@media screen and (min-width: 700px) {
+  .about {
+    margin-left: 25%;
+    margin-right: 25%;
+  }
+}
