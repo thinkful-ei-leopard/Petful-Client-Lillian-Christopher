@@ -4,7 +4,7 @@ const PetfulApiService = {
 
   //gets only rn
   getPeople(){
-    return fetch(`${config.API_ENDPOINT}/people`)
+    return fetch(`${config.API_ENDPOINT}people`)
       .then(res => 
         (!res.ok)
         ? res.json().then(e => Promise.reject(e))
@@ -13,11 +13,43 @@ const PetfulApiService = {
   },
 
   getPets(){
-    return fetch(`${config.API_ENDPOINT}/pets`)
+    return fetch(`${config.API_ENDPOINT}pets`)
       .then(res => 
         (!res.ok)
         ? res.json().then(e => Promise.reject(e))
         : res.json()
       )
+  },
+
+  postPerson(name) {
+    return fetch(`${config.API_ENDPOINT}people`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        name,
+      }),
+    })
+      .then(res => 
+        (!res.ok)
+        ? res.json().then(e => Promise.reject(e))
+        : res.json()
+      )
+  },
+
+  deletePetAndPerson(type) {
+    return fetch(`${config.API_ENDPOINT}pets`, {
+      method: 'DELETE',
+      headers: {
+        'content-type': 'application/json'
+      },
+      body: JSON.stringify({
+        type,
+      }),
+    })
   }
+
 }
+
+export default PetfulApiService
