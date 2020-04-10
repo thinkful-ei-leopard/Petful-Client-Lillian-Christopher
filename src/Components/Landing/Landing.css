@@ -10,7 +10,9 @@
 
 .about > h1 {
   color: #FD607C;
+  font-size: 45px;
   font-weight: 900;
+  text-align: center;
 }
 
 .about > p {
@@ -30,14 +32,19 @@
   margin-top: 50px;
 }
 
-button {
+.landing-adopt {
   background-color: #5945BC;
   border: none;
   border-radius: 25px;
   color: white;
   font-size: 15px;
   font-weight: bold;
-  padding: 10px;
+  padding: 10px 40px;
+}
+
+.landing-adopt:hover {
+  background-color: #A2C1ED;
+  transition: .25s;
 }
 
 /*
@@ -47,7 +54,7 @@ button {
 */
 
 @media screen and (min-width: 700px) {
-  .about {
+  .about > p {
     margin-left: 25%;
     margin-right: 25%;
   }
