@@ -49,7 +49,5 @@ const PetfulApiService = {
       }),
     })
   }
-
 }
-
 export default PetfulApiService
