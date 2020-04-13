@@ -1,7 +1,7 @@
 {
   "version": 2,
   "name": "petful",
-  "alias": "petful",
+  "alias": "petful-lillian-chris",
   "routes": [
     {
       "src": "^/static/(.*)",
