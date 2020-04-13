@@ -60,13 +60,36 @@ export default class AdoptMain extends React.Component {
   handleAdoptDog(e) {
     e.preventDefault()
     PetfulApiService.deletePetAndPerson('dog')
-    alert('Adopted a dog! Congrats!')
+      .then( res => {
+        PetfulApiService.getPets()
+          .then(res => this.setState({ dogs: res.dogs }))
+        PetfulApiService.getPeople()
+          .then(res => this.setState({ people: res }))
+      }
+      )
+      // .then(
+      //   PetfulApiService.getPeople()
+      //     .then(res => this.setState({ people: res }))
+      //     .catch(res => this.setState({ error: res.error }))
+      // )
+    // alert('Adopted a dog! Congrats!')
   }
 
   handleAdoptCat(e) {
     e.preventDefault()
     PetfulApiService.deletePetAndPerson('cat')
-    alert('Adopted a cat! Congrats!')
+      .then(
+        PetfulApiService.getPets()
+          .then(res => this.setState({ cats: res.cats }))
+          .catch(res => this.setState({ error: res.error }))
+      )
+      // .then(
+      //   PetfulApiService.getPeople()
+      //     .then(res => this.setState({ people: res }))
+      //     .catch(res => this.setState({ error: res.error }))
+      // )
+      .catch(res => this.setState({ error: res.error }))
+    // alert('Adopted a cat! Congrats!')
   }
 
   renderAdoptDogButton(name) {
@@ -125,7 +148,10 @@ export default class AdoptMain extends React.Component {
           <p>Gender: {this.state.dogs[0].gender}</p>
           <p>Breed: {this.state.dogs[0].breed}</p>
           <p>How I got here: {this.state.dogs[0].story}</p>
-          {this.renderAdoptDogButton()}
+          <button onClick={e => this.handleAdoptDog(e)}>
+            Adopt Me!
+          </button>
+          {/* {this.renderAdoptDogButton()} */}
         </div>
 
         <div className='cat-container'>
@@ -135,7 +161,10 @@ export default class AdoptMain extends React.Component {
           <p>Gender: {this.state.cats[0].gender}</p>
           <p>Breed: {this.state.cats[0].breed}</p>
           <p>How I got here: {this.state.cats[0].story}</p>
-          {this.renderAdoptCatButton()}
+          <button onClick={e => this.handleAdoptCat(e)}>
+            Adopt Me!
+          </button>
+          {/* {this.renderAdoptCatButton()} */}
         </div>
 
         <div className='queue-container'>
