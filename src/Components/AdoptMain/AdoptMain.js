@@ -27,51 +27,6 @@ export default class AdoptMain extends React.Component {
     PetfulApiService.getPeople()
       .then(res => this.setState({ people: res }))
       .catch(res => this.setState({ error: res.error }))
-
-    // setInterval(() => {
-    //   let randomNumber = Math.floor(Math.random() * 2) + 1
-    //   console.log(randomNumber);
-      
-    //   if(randomNumber === 1) {
-    //     PetfulApiService.deletePetAndPerson('dog')
-    //       .then( res => {
-    //         PetfulApiService.getPets()
-    //           .then(res => this.setState({ dogs: res.dogs }))
-    //           .catch(res => this.setState({ error: res.error }))
-    //         PetfulApiService.getPeople()
-    //           .then(res => this.setState({ people: res }))
-    //           .catch(res => this.setState({ error: res.error }))
-    //       })
-    //       .catch(res => this.setState({ error: res.error }))
-    //   } else {
-    //     PetfulApiService.deletePetAndPerson('cat')
-    //       .then( res => {
-    //         PetfulApiService.getPets()
-    //           .then(res => this.setState({ cats: res.cats }))
-    //           .catch(res => this.setState({ error: res.error }))
-    //         PetfulApiService.getPeople()
-    //           .then(res => this.setState({ people: res }))
-    //           .catch(res => this.setState({ error: res.error }))
-    //       })
-    //       .catch(res => this.setState({ error: res.error }))
-    //   }
-    // }, 5000);
-  }
-
-  incrementPerson() {
-    let randomNumber = Math.floor(Math.random() * 2) + 1
-    console.log(randomNumber);
-    let petType = ''
-    
-    if(randomNumber === 1) {
-      petType = 'dog'
-    } else {
-      petType = 'cat'
-    }
-
-    setInterval(() => {
-      console.log('every 5 seconds')
-    }, 5000);
   }
 
   handleAddName(e) {
@@ -89,7 +44,6 @@ export default class AdoptMain extends React.Component {
 
     this.timeout = setInterval(() => {
       let randomNumber = Math.floor(Math.random() * 2) + 1
-      console.log(randomNumber);
       
       if(randomNumber === 1) {
         PetfulApiService.deletePetAndPerson('dog')
@@ -129,7 +83,6 @@ export default class AdoptMain extends React.Component {
           .catch(res => this.setState({ error: res.error }))
       })
       .catch(res => this.setState({ error: res.error }))
-    // alert('Adopted a dog! Congrats!')
   }
 
   handleAdoptCat(e) {
@@ -144,7 +97,6 @@ export default class AdoptMain extends React.Component {
           .catch(res => this.setState({ error: res.error }))
       })
       .catch(res => this.setState({ error: res.error }))
-    // alert('Adopted a cat! Congrats!')
   }
 
   renderAdoptDogButton(name) {
@@ -190,13 +142,10 @@ export default class AdoptMain extends React.Component {
     } else if (people.length === 1) {
       clearInterval(this.timeout)
       this.addPeople = setInterval(() => {
-        console.log('adding')
         const firstNames = ['Kit', 'Adam', 'Keke', 'Emma', 'Howie', 'Donald']
         const lastNames = ['Harington', 'Driver', 'Palmer', 'Roberts', 'Mandel', 'Glover']
 
         const getRandomName = () => `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`
-
-        console.log(getRandomName)
 
         PetfulApiService.postPerson(getRandomName())
         .then( res => {
