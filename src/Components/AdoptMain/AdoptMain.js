@@ -48,13 +48,16 @@ export default class AdoptMain extends React.Component {
 
   handleAddName(e) {
     e.preventDefault()
-    const name = e.target.line.value
-    PetfulApiService.postPerson(name)
-      .then( res => this.setState({people: [...this.state.people, res]}))
+    const { name } = e.target
+    PetfulApiService.postPerson(name.value)
+      .then( res => {
+        name.value = ''
+        this.setState({people: [...this.state.people, res]})
+      })
       .catch(res => this.setState({ error: res.error }))
 
-    this.renderAdoptDogButton(name)
-    this.renderAdoptCatButton(name)
+    // this.renderAdoptDogButton(name)
+    // this.renderAdoptCatButton(name)
   }
 
   handleAdoptDog(e) {
@@ -87,25 +90,25 @@ export default class AdoptMain extends React.Component {
     // alert('Adopted a cat! Congrats!')
   }
 
-  renderAdoptDogButton(name) {
-    let button
-    if(name === this.state.people[0]){
-      button = <button onClick={e => this.handleAdoptDog(e)}>
-        Adopt Me!
-      </button>
-    }
-    return button
-  }
+  // renderAdoptDogButton(name) {
+  //   let button
+  //   if(name === this.state.people[0]){
+  //     button = <button onClick={e => this.handleAdoptDog(e)}>
+  //       Adopt Me!
+  //     </button>
+  //   }
+  //   return button
+  // }
 
-  renderAdoptCatButton(name) {
-    let button
-    if(name === this.state.people[0]){
-      button = <button onClick={e => this.handleAdoptCat(e)}>
-        Adopt Me!
-      </button>
-    }
-    return button
-  }
+  // renderAdoptCatButton(name) {
+  //   let button
+  //   if(name === this.state.people[0]){
+  //     button = <button onClick={e => this.handleAdoptCat(e)}>
+  //       Adopt Me!
+  //     </button>
+  //   }
+  //   return button
+  // }
 
   renderPeople() {
     let line = []
@@ -128,7 +131,7 @@ export default class AdoptMain extends React.Component {
     } else if (dogs.length === 0 || cats.length === 0) {
       return <div className='loading'>loading...</div>
     } else if (people.length !== 0) {
-      this.incrementPerson()
+      // this.incrementPerson()
     }
     return(
       <div className='adopt-main'>
@@ -167,8 +170,8 @@ export default class AdoptMain extends React.Component {
         </div>
 
         <form className='add-name' onSubmit={e => this.handleAddName(e)}>
-          <label htmlFor='line'>Enter your name to get in line!</label>
-          <input type='text' name='line' minLength='1' id='name-input'></input>
+          <label htmlFor='name'>Enter your name to get in line!</label>
+          <input type='text' name='name' minLength='1' id='name-input'></input>
           <button type='submit'>Get in line to adopt!</button>
         </form>
       </div>
