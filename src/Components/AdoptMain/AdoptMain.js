@@ -27,7 +27,34 @@ export default class AdoptMain extends React.Component {
       .then(res => this.setState({ people: res }))
       .catch(res => this.setState({ error: res.error }))
 
-    
+    setInterval(() => {
+      let randomNumber = Math.floor(Math.random() * 2) + 1
+      console.log(randomNumber);
+      
+      if(randomNumber === 1) {
+        PetfulApiService.deletePetAndPerson('dog')
+          .then( res => {
+            PetfulApiService.getPets()
+              .then(res => this.setState({ dogs: res.dogs }))
+              .catch(res => this.setState({ error: res.error }))
+            PetfulApiService.getPeople()
+              .then(res => this.setState({ people: res }))
+              .catch(res => this.setState({ error: res.error }))
+          })
+          .catch(res => this.setState({ error: res.error }))
+      } else {
+        PetfulApiService.deletePetAndPerson('cat')
+          .then( res => {
+            PetfulApiService.getPets()
+              .then(res => this.setState({ cats: res.cats }))
+              .catch(res => this.setState({ error: res.error }))
+            PetfulApiService.getPeople()
+              .then(res => this.setState({ people: res }))
+              .catch(res => this.setState({ error: res.error }))
+          })
+          .catch(res => this.setState({ error: res.error }))
+      }
+    }, 5000);
   }
 
   incrementPerson() {
