@@ -63,31 +63,26 @@ export default class AdoptMain extends React.Component {
       .then( res => {
         PetfulApiService.getPets()
           .then(res => this.setState({ dogs: res.dogs }))
+          .catch(res => this.setState({ error: res.error }))
         PetfulApiService.getPeople()
           .then(res => this.setState({ people: res }))
-      }
-      )
-      // .then(
-      //   PetfulApiService.getPeople()
-      //     .then(res => this.setState({ people: res }))
-      //     .catch(res => this.setState({ error: res.error }))
-      // )
+          .catch(res => this.setState({ error: res.error }))
+      })
+      .catch(res => this.setState({ error: res.error }))
     // alert('Adopted a dog! Congrats!')
   }
 
   handleAdoptCat(e) {
     e.preventDefault()
     PetfulApiService.deletePetAndPerson('cat')
-      .then(
+      .then( res => {
         PetfulApiService.getPets()
           .then(res => this.setState({ cats: res.cats }))
           .catch(res => this.setState({ error: res.error }))
-      )
-      // .then(
-      //   PetfulApiService.getPeople()
-      //     .then(res => this.setState({ people: res }))
-      //     .catch(res => this.setState({ error: res.error }))
-      // )
+        PetfulApiService.getPeople()
+          .then(res => this.setState({ people: res }))
+          .catch(res => this.setState({ error: res.error }))
+      })
       .catch(res => this.setState({ error: res.error }))
     // alert('Adopted a cat! Congrats!')
   }
