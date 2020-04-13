@@ -31,7 +31,6 @@ export default class AdoptMain extends React.Component {
   }
 
   incrementPerson() {
-    console.log('increment');
     let randomNumber = Math.floor(Math.random() * 2) + 1
     console.log(randomNumber);
     let petType = ''
@@ -43,7 +42,7 @@ export default class AdoptMain extends React.Component {
     }
 
     setInterval(() => {
-      PetfulApiService.deletePetAndPerson(petType)
+      console.log('every 5 seconds')
     }, 5000);
   }
 
@@ -51,11 +50,7 @@ export default class AdoptMain extends React.Component {
     e.preventDefault()
     const name = e.target.line.value
     PetfulApiService.postPerson(name)
-      .then(
-        PetfulApiService.getPeople()
-          .then(res => this.setState({ people: res }))
-          .catch(res => this.setState({ error: res.error }))
-      )
+      .then( res => this.setState({people: [...this.state.people, res]}))
       .catch(res => this.setState({ error: res.error }))
 
     this.renderAdoptDogButton(name)
@@ -109,7 +104,6 @@ export default class AdoptMain extends React.Component {
 
   render() {
     const {dogs, cats, people, error} = this.state
-    console.log(this.state)
     let content
     if (error) {
       content = <p className='red'>There was an error</p>
