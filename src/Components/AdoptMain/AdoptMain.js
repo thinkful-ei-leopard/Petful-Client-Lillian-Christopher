@@ -131,6 +131,32 @@ export default class AdoptMain extends React.Component {
     return line
   }
 
+  peopleInterval() {
+      let addPeople = setTimeout(() => {
+        console.log(this.state.people)
+        if(this.state.people){
+          clearTimeout(addPeople)
+        }
+
+        const firstNames = ['Kit', 'Adam', 'Keke', 'Emma', 'Howie', 'Donald']
+        const lastNames = ['Harington', 'Driver', 'Palmer', 'Roberts', 'Mandel', 'Glover']
+
+        const getRandomName = () => `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`
+
+        if(this.state.people.length < 6) {
+            PetfulApiService.postPerson(getRandomName())
+              .then( res => {
+                this.setState({
+                  people: [...this.state.people, res],
+                })
+              })
+              .catch(res => this.setState({ error: res.error }))
+        }
+
+        }, 3000);
+    //clearTimeout(addPeople)
+  }
+
 
   render() {
     const {dogs, cats, people, error} = this.state
@@ -138,23 +164,9 @@ export default class AdoptMain extends React.Component {
     if (error) {
       content = <p className='red'>There was an error</p>
     } else if (dogs.length === 0 || cats.length === 0) {
-      return <div className='loading'>loading...</div>
-    } else if (people.length === 1) {
-      clearInterval(this.timeout)
-      this.addPeople = setInterval(() => {
-        const firstNames = ['Kit', 'Adam', 'Keke', 'Emma', 'Howie', 'Donald']
-        const lastNames = ['Harington', 'Driver', 'Palmer', 'Roberts', 'Mandel', 'Glover']
-
-        const getRandomName = () => `${firstNames[Math.floor(Math.random() * firstNames.length)]} ${lastNames[Math.floor(Math.random() * lastNames.length)]}`
-
-        PetfulApiService.postPerson(getRandomName())
-        .then( res => {
-          this.setState({
-            people: [...this.state.people, res],
-          })
-        })
-        .catch(res => this.setState({ error: res.error }))
-        }, 5000);
+      return <div className='loading'>No pets left to adopt!!!</div>
+    } else if (people) {
+      this.peopleInterval() 
     } else if (people.length === 5) {
       clearInterval(this.addPeople)
     }
